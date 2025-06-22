@@ -192,7 +192,7 @@ export default function PdfDetail() {
             loading={<div className="p-4 text-center">Loading PDF...</div>}
             className="h-full overflow-y-auto"
           >
-            {Array.from(new Array(numPages || 0), (element, index) => (
+            {Array.from(new Array(numPages || 0), (_, index) => (
               <div
                 key={`page_wrapper_${index + 1}`}
                 className="flex justify-center mb-4 shadow-lg"

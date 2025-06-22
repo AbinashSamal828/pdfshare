@@ -95,7 +95,7 @@ export default function SharePage() {
             onLoadSuccess={onDocumentLoadSuccess}
             loading={<p>Loading PDF...</p>}
           >
-            {Array.from(new Array(numPages || 0), (element, index) => (
+            {Array.from(new Array(numPages || 0), (_, index) => (
               <div key={`page_wrapper_${index + 1}`} className="mb-4 shadow-lg">
                 <Page
                   pageNumber={index + 1}
