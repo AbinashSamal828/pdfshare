@@ -11,6 +11,7 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const { user, login } = useAuth();
   const navigate = useNavigate();
+  const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -18,8 +19,18 @@ export default function Signup() {
     }
   }, [user, navigate]);
 
+  const validateEmail = (email: string) => {
+    // Simple email regex
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setEmailError("");
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
     try {
       const res = await axios.post("/auth/register", { name, email, password });
       login(res.data.token);
@@ -58,8 +69,13 @@ export default function Signup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+            className={`w-full px-4 py-2 border ${
+              emailError ? "border-red-500" : "border-gray-300"
+            } rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition`}
           />
+          {emailError && (
+            <p className="text-red-500 text-xs mt-1">{emailError}</p>
+          )}
         </div>
         <div className="relative">
           <label className="block text-sm font-medium text-gray-700 mb-1">
